@@ -13,7 +13,7 @@ if (! current_user_can('manage_options'))
 }
 
 // Array of options fields
-$settings = ['abuBucketName', 'abuBucketRegion', 'abuAccessKeyId', 'abuSecretAccessKey'];
+$settings = ['abuBucketName', 'abuHostname', 'abuAccessKeyId', 'abuSecretAccessKey'];
 
 // Loop through the array
 for ($i = 0; $i < count($settings); $i++) { 
@@ -43,10 +43,10 @@ for ($i = 0; $i < count($settings); $i++) {
 					</td>
 				</tr>
 				<tr>
-                	<th scope="row"><label for="abuBucketRegion">Bucket Region</label></th>
+                	<th scope="row"><label for="abuHostname">Hostname</label></th>
                     <td>
-						<input type="text" name="abuBucketRegion" value="<?php echo $abuBucketRegion; ?>" id="abuBucketRegion" class="regular-text"/>
-						<p class="description">The region of your bucket e.g. "eu-west-1"</p>
+						<input type="text" name="abuHostname" value="<?php echo $abuHostname; ?>" id="abuHostname" class="regular-text"/>
+						<p class="description">The hostname e.g. "s3.region.amazonaws.com"</p>
 					</td>
 				</tr>
 				<tr>

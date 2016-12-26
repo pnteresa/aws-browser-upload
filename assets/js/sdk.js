@@ -6,22 +6,36 @@ jQuery(document).ready(function($) {
 
     // Bucket options
     var bucketName = abu_options.bucketName;
-    var bucketRegion = abu_options.bucketRegion;
+    var hostname = abu_options.hostname;
+    //
+    // var config = new AWS.Config({
+    //   accessKeyId: abu_options.accessKey,
+    //   secretAccessKey: abu_options.secretKey,
+    //   region: bucketRegion,
+    //   endpoint: "s3.pranyoto.sisdis.ui.ac.id/test-bucket"
+    // });
+    //
+    // AWS.config.update(config);
+    //
+    // // var endpoint = new AWS.
+    //
+    // // Create a new S3 Bucket object
+    // var s3 = new AWS.S3({
+    //   apiVersion: '2006-03-01',
+    //   params: {Bucket: bucketName}
+    // });
 
-    var config = new AWS.Config({
-      accessKeyId: abu_options.accessKey, 
-      secretAccessKey: abu_options.secretKey, 
-      region: bucketRegion
-    });
-    
-
-    AWS.config.update(config);
-
-    // Create a new S3 Bucket object
     var s3 = new AWS.S3({
-      apiVersion: '2006-03-01',
-      params: {Bucket: bucketName}
+        accessKeyId: abu_options.accessKey,
+        secretAccessKey: abu_options.secretKey,
+        sslEnabled: true,
+        endpoint: hostname,
+        s3ForcePathStyle: true,
+        s3BucketEndpoint: false,
+        params: {Bucket: bucketName}
     });
+
+    console.log(JSON.stringify(s3));
 
     /**
      * Upload a file to S3
@@ -42,7 +56,8 @@ jQuery(document).ready(function($) {
         s3.upload({
             Key: fileName,
             Body: file,
-            ACL: 'public-read'
+            ACL: 'public-read',
+            Bucket: bucketName
         }, function(err,data) {
             // Max file size is set in a hidden field in file-upload.php
             if (s3.upload && file.size <= document.getElementById("MAX_FILE_SIZE").value) {
@@ -113,7 +128,7 @@ jQuery(document).ready(function($) {
                     return getHtml([
                         '<tr>',
                             '<td>',
-                                '<h4>' + fileName + '</h4> <strong>File URL:</strong> <input id="file-' + sanitizeTag(tag) + '" value="https://s3-' + bucketRegion + '.amazonaws.com/' + bucketName + '/' + encodedFileName(fileName) + '" /> ' + 
+                                '<h4>' + fileName + '</h4> <strong>File URL:</strong> <input id="file-' + sanitizeTag(tag) + '" value="https://' + hostname + '/' + bucketName + '/' + encodedFileName(fileName) + '" /> ' +
                                 '<span class="clipboard_btn" data-clipboard-target="#file-' + sanitizeTag(tag) + '"><i class="fa fa-clipboard" aria-hidden="true" title="Copy to clipboard"></i></span>' +
                                 '<span class="trash" onclick="deleteFile(\'' + fileName + '\')"><i class="fa fa-trash-o" aria-hidden="true" title="Delete file"></i></span>',
                             '</td>',

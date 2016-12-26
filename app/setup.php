@@ -14,10 +14,10 @@ if (! function_exists('abu_enqueue_scripts'))
 
         // Make contants available in sdk.js
         wp_localize_script('sdk', 'abu_options', array(
-        	'bucketName'   => ABU_BUCKET_NAME,
-        	'bucketRegion' => ABU_BUCKET_REGION,
-        	'accessKey'    => ABU_ACCESS_KEY,
-        	'secretKey'    => ABU_SECRET_ACCESS_KEY
+            'bucketName'   => ABU_BUCKET_NAME,
+            'hostname'     => ABU_HOSTNAME,
+            'accessKey'    => ABU_ACCESS_KEY,
+            'secretKey'    => ABU_SECRET_ACCESS_KEY
         ));
     }
     add_action('admin_enqueue_scripts', 'abu_enqueue_scripts');
